@@ -11,12 +11,12 @@ def open_album_form_window(parent, refresh_treeview, album=None, on_save=None):
     window.grab_set()
     window.transient(parent)
 
-    window.title('Edytuj album' if album else 'Dodaj nowy album')
+    window.title('Edit album' if album else 'Add new album')
 
-    tk.Label(window, text='Artysta: ').grid(row=0, column=0, sticky='w')
-    tk.Label(window, text='Tytuł albumu: ').grid(row=1, column=0, sticky='w')
-    tk.Label(window, text='Gatunek: ').grid(row=2, column=0, sticky='w')
-    tk.Label(window, text='Rok wydania: ').grid(row=3, column=0, sticky='w')
+    tk.Label(window, text='Artist: ').grid(row=0, column=0, sticky='w')
+    tk.Label(window, text='Album title: ').grid(row=1, column=0, sticky='w')
+    tk.Label(window, text='Genre: ').grid(row=2, column=0, sticky='w')
+    tk.Label(window, text='Release year: ').grid(row=3, column=0, sticky='w')
 
     artists_dict = {a.name: a for a in get_artists()}
     genres_dict = {g.name: g for g in get_genres()}
@@ -56,4 +56,4 @@ def open_album_form_window(parent, refresh_treeview, album=None, on_save=None):
         refresh_treeview()
         window.destroy()
 
-    tk.Button(window, text='Zapisz', command=save).grid(row=4, column=0, columnspan=2)
+    tk.Button(window, text='Save', command=save).grid(row=4, column=0, columnspan=2)

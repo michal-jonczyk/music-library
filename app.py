@@ -45,12 +45,12 @@ def run_app():
 
     menu_bar = tk.Menu(root)
     file_menu = tk.Menu(menu_bar, tearoff=0)
-    file_menu.add_command(label="Dodaj album", command=lambda: open_add_album_window(root, lambda: refresh_treeview(tree,albums_dict)))
-    file_menu.add_command(label="Edytuj album", command=lambda: update_single_album(root,tree, albums_dict))
-    file_menu.add_command(label="Usuń album", command=lambda: delete_single_album(tree,albums_dict))
-    file_menu.add_command(label="Wyjdź",command=root.quit)
+    file_menu.add_command(label="Add album", command=lambda: open_add_album_window(root, lambda: refresh_treeview(tree,albums_dict)))
+    file_menu.add_command(label="Edit album", command=lambda: update_single_album(root,tree, albums_dict))
+    file_menu.add_command(label="Delete album", command=lambda: delete_single_album(tree,albums_dict))
+    file_menu.add_command(label="Exit",command=root.quit)
 
-    menu_bar.add_cascade(label="Plik", menu=file_menu)
+    menu_bar.add_cascade(label="File", menu=file_menu)
 
     tree = ttk.Treeview(root,
                         columns=('Artist','Title','Genre','Year'),
