@@ -9,3 +9,7 @@ def get_artists():
         return artist
 
 
+def save_artist(artist):
+    with Session() as session:
+        session.add(artist)
+        session.commit()
