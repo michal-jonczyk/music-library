@@ -3,6 +3,7 @@ from tkinter import ttk
 
 from albums_db import get_albums,delete_album
 from add_album_window import open_add_album_window
+from artist_manager_window import open_artist_manager_window
 from update_album_window import open_update_album_window
 
 def refresh_treeview(tree,albums_dict):
@@ -51,6 +52,9 @@ def run_app():
     file_menu.add_command(label="Exit",command=root.quit)
 
     menu_bar.add_cascade(label="File", menu=file_menu)
+    artists_menu = tk.Menu(menu_bar, tearoff=0)
+    artists_menu.add_command(label="Manage Artist",command=lambda: open_artist_manager_window(root))
+    menu_bar.add_cascade(label="Artists", menu=artists_menu)
 
     tree = ttk.Treeview(root,
                         columns=('Artist','Title','Genre','Year'),
