@@ -15,7 +15,7 @@ def refresh_treeview(tree,albums_dict,albums_cache):
     albums = get_albums()
     albums_cache.extend(albums)
     for album in albums:
-        item_id = tree.insert("",'end',text=album,values=(
+        item_id = tree.insert("",'end',values=(
             album.artist.name,
             album.title,
             album.genre.name,
@@ -64,7 +64,7 @@ def run_app():
     init_db()
     root = tk.Tk()
     root.title('Music Library')
-    root.geometry('800x300')
+    root.geometry('800x330')
 
     menu_bar = tk.Menu(root)
     file_menu = tk.Menu(menu_bar, tearoff=0)
@@ -133,6 +133,27 @@ def run_app():
     refresh_and_filter()
 
     tree.pack(expand=True, fill='both')
+
+    buttons_frame = ttk.Frame(root)
+    buttons_frame.pack(fill='x',padx=10,pady=(10))
+
+    ttk.Button(
+        buttons_frame,
+        text="Add",
+        command=lambda: open_add_album_window(root,refresh_and_filter)
+    ).pack(side='left')
+
+    ttk.Button(
+        buttons_frame,
+        text="Delete",
+        command=lambda: delete_single_album(tree,albums_dict,albums_cache,refresh_and_filter)
+    ).pack(side='right')
+
+    ttk.Button(
+        buttons_frame,
+        text="Edit",
+        command=lambda: update_single_album(root,tree,albums_dict,albums_cache,refresh_and_filter)
+    ).pack(side='right',padx=(0,8))
 
     tree.bind('<Double-1>', lambda e: update_single_album(root,tree, albums_dict,albums_cache,refresh_and_filter))
     tree.bind('<Delete>',lambda e: delete_single_album(tree,albums_dict,albums_cache,refresh_and_filter))
