@@ -1,64 +1,72 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
-from fastapi import HTTPException
+from sqlalchemy.orm import Session
+from starlette import status
 
-app = FastAPI(title = "Music Library API")
+from app.database import get_db
+from models import Artist
 
-artists = []
-next_artist_id = 1
+app = FastAPI(title="Music Library API")
+
+
+class ArtistCreate(BaseModel):
+    name: str
+    description: str | None = None
+
+
+class ArtistOut(BaseModel):
+    id: int
+    name: str
+    description: str | None = None  # <- ważne
+
 
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
 
 
-@app.get("/artists")
-def get_artists():
-    return artists
-
-class ArtistCreate(BaseModel):
-    name: str
-    description: str | None=None
-
-@app.post("/artists")
-def create_artist(artist: ArtistCreate):
-    global next_artist_id
-
-    artist_data = artist.model_dump()
-    artist_data["id"] = next_artist_id
-    next_artist_id += 1
-
-    artists.append(artist_data)
-
-    return artist_data
+@app.get("/artists", response_model=list[ArtistOut])
+def get_artists(db: Session = Depends(get_db)):
+    return db.query(Artist).all()
 
 
-@app.get("/artists/{artist_id}")
-def get_artist(artist_id: int):
-    for artist in artists:
-        if artist["id"] == artist_id:
-            return artist
-
-    raise HTTPException(status_code=404, detail="Artist not found")
-
-
-@app.delete("/artists/{artist_id}")
-def delete_artist(artist_id: int):
-    for index, artist in enumerate(artists):
-        if artist["id"] == artist_id:
-            artists.pop(index)
-            return{"message": "Artist deleted"}
-
-    raise HTTPException(status_code=404, detail="Artist not found")
+@app.post("/artists", status_code=status.HTTP_201_CREATED, response_model=ArtistOut)
+def create_artist(artist: ArtistCreate, db: Session = Depends(get_db)):
+    new_artist = Artist(name=artist.name, description=artist.description)
+    db.add(new_artist)
+    db.commit()
+    db.refresh(new_artist)
+    return new_artist
 
 
-@app.put("/artists/{artist_id}")
-def update_artist(artist_id: int, artist: ArtistCreate):
-    for index, existing_artist in enumerate(artists):
-        if existing_artist["id"] == artist_id:
-            updated_artist = artist.model_dump()
-            updated_artist["id"] = artist_id
-            artists[index] = updated_artist
-            return updated_artist
+@app.get("/artists/{artist_id}", response_model=ArtistOut)
+def get_artist(artist_id: int, db: Session = Depends(get_db)):
+    artist = db.query(Artist).filter(Artist.id == artist_id).first()
+    if artist is None:
+        raise HTTPException(status_code=404, detail="Artist not found")
+    return artist
 
-    raise HTTPException(status_code=404, detail="Artist not found")
+
+@app.delete("/artists/{artist_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_artist(artist_id: int, db: Session = Depends(get_db)):
+    artist = db.query(Artist).filter(Artist.id == artist_id).first()
+    if artist is None:
+        raise HTTPException(status_code=404, detail="Artist not found")
+    db.delete(artist)
+    db.commit()
+    return
+
+
+@app.put("/artists/{artist_id}", response_model=ArtistOut)
+def update_artist(artist_id: int, artist: ArtistCreate, db: Session = Depends(get_db)):
+    existing = db.query(Artist).filter(Artist.id == artist_id).first()
+    if existing is None:
+        raise HTTPException(status_code=404, detail="Artist not found")
+
+    existing.name = artist.name
+    existing.description = artist.description
+    db.commit()
+    db.refresh(existing)
+    return existing
+
+
