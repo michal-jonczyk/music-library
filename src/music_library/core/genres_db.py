@@ -1,5 +1,5 @@
-from config import Session
-from models import Genre, Album
+from music_library.core.config import Session
+from music_library.core.models import Genre, Album
 
 
 def get_genres():

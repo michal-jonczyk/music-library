@@ -1,5 +1,5 @@
-from config import Session
-from models import Artist,Album
+from music_library.core.config import Session
+from music_library.core.models import Artist,Album
 
 
 def get_artists():

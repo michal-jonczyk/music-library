@@ -1,11 +1,12 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-from albums_db import get_albums,delete_album
-from add_album_window import open_add_album_window
-from artist_manager_window import open_artist_manager_window
-from update_album_window import open_update_album_window
-from genre_manager_window import open_genre_manager_window
+from music_library.core.albums_db import get_albums,delete_album
+from music_library.desktop.ui.add_album_window import open_add_album_window
+from music_library.desktop.ui.artist_manager_window import open_artist_manager_window
+from music_library.desktop.ui.update_album_window import open_update_album_window
+from music_library.desktop.ui.genre_manager_window import open_genre_manager_window
+from music_library.core.config import init_db
 
 def refresh_treeview(tree,albums_dict,albums_cache):
     tree.delete(*tree.get_children())
@@ -60,6 +61,7 @@ def update_single_album(root,tree, albums_dict,albums_cache,refresh_callback):
 
 
 def run_app():
+    init_db()
     root = tk.Tk()
     root.title('Music Library')
     root.geometry('800x300')

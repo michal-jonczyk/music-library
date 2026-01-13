@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from genres_db import update_genre
+from music_library.core.genres_db import update_genre
 
 
 def open_edit_genre_window(parent,genre,on_updated):

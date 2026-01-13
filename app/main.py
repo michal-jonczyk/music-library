@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from starlette import status
 
 from app.database import get_db
-from models import Artist
+from src.music_library.core.models import Artist
 
 app = FastAPI(title="Music Library API")
 

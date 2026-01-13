@@ -1,6 +1,6 @@
-from config import Session
+from music_library.core.config import Session
 from sqlalchemy.orm import joinedload
-from models import Album
+from music_library.core.models import Album
 
 def get_albums():
     with Session() as session:

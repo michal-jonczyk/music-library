@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-from artist_db import get_artists
-from genres_db import get_genres
-from models import Album
-from add_artist_window import open_add_artist_window
+from music_library.core.artist_db import get_artists
+from music_library.core.genres_db import get_genres
+from music_library.core.models import Album
+from music_library.desktop.ui.add_artist_window import open_add_artist_window
 
 def open_album_form_window(parent, refresh_treeview, album=None, on_save=None):
     window = tk.Toplevel(parent)

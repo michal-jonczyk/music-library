@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from artist_db import save_artist
-from models import Artist
+from src.music_library.core.artist_db import save_artist
+from src.music_library.core.models import Artist
 
 
 def open_add_artist_window(parent, on_added):

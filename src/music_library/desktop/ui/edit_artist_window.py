@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from artist_db import update_artist
+from music_library.core.artist_db import update_artist
 
 def open_edit_artist_window(parent, artist, on_updated):
     window = tk.Toplevel(parent)

@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-from artist_db import get_artists, delete_artist, artist_has_albums
-from add_artist_window import open_add_artist_window
-from edit_artist_window import open_edit_artist_window
+from music_library.core.artist_db import get_artists, delete_artist, artist_has_albums
+from music_library.desktop.ui.add_artist_window import open_add_artist_window
+from music_library.desktop.ui.edit_artist_window import open_edit_artist_window
 
 
 def open_artist_manager_window(parent):

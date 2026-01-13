@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-from genres_db import get_genres, delete_genre, genre_has_albums
-from add_genre_window import open_add_genre_window
-from edit_genre_window import open_edit_genre_window
+from music_library.core.genres_db import get_genres, delete_genre, genre_has_albums
+from music_library.desktop.ui.add_genre_window import open_add_genre_window
+from music_library.desktop.ui.edit_genre_window import open_edit_genre_window
 
 
 def open_genre_manager_window(parent):
