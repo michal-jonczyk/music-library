@@ -8,14 +8,14 @@ from music_library.desktop.ui.update_album_window import open_update_album_windo
 from music_library.desktop.ui.genre_manager_window import open_genre_manager_window
 from music_library.core.config import init_db
 
-def refresh_treeview(tree,albums_dict,albums_cache):
+def refresh_treeview(tree, albums_dict, albums_cache):
     tree.delete(*tree.get_children())
     albums_dict.clear()
     albums_cache.clear()
     albums = get_albums()
     albums_cache.extend(albums)
     for album in albums:
-        item_id = tree.insert("",'end',values=(
+        item_id = tree.insert('','end',values=(
             album.artist.name,
             album.title,
             album.genre.name,
@@ -24,7 +24,7 @@ def refresh_treeview(tree,albums_dict,albums_cache):
         albums_dict[item_id] = album
 
 
-def delete_single_album(tree, albums_dict,albums_cache,refresh_callback):
+def delete_single_album(tree, albums_dict, albums_cache, refresh_callback):
     selected = tree.selection()
     if not selected:
         messagebox.showwarning('Error','Select an album first.')
@@ -47,7 +47,7 @@ def delete_single_album(tree, albums_dict,albums_cache,refresh_callback):
 
 
 
-def update_single_album(root,tree, albums_dict,albums_cache,refresh_callback):
+def update_single_album(root,tree, albums_dict, albums_cache, refresh_callback):
     selected = tree.selection()
     if not selected:
         messagebox.showwarning('Error','Select an album first.')
@@ -68,31 +68,31 @@ def run_app():
 
     menu_bar = tk.Menu(root)
     file_menu = tk.Menu(menu_bar, tearoff=0)
-    file_menu.add_command(label="Add album", command=lambda: open_add_album_window(root,refresh_and_filter))
-    file_menu.add_command(label="Edit album", command=lambda: update_single_album(root,tree, albums_dict,albums_cache,refresh_and_filter))
-    file_menu.add_command(label="Delete album", command=lambda: delete_single_album(tree,albums_dict,albums_cache,refresh_and_filter))
-    file_menu.add_command(label="Exit",command=root.quit)
-    menu_bar.add_cascade(label="File", menu=file_menu)
+    file_menu.add_command(label='Add album', command=lambda: open_add_album_window(root,refresh_and_filter))
+    file_menu.add_command(label='Edit album', command=lambda: update_single_album(root,tree, albums_dict,albums_cache,refresh_and_filter))
+    file_menu.add_command(label='Delete album', command=lambda: delete_single_album(tree,albums_dict,albums_cache,refresh_and_filter))
+    file_menu.add_command(label='Exit',command=root.quit)
+    menu_bar.add_cascade(label='File', menu=file_menu)
 
     genres_menu = tk.Menu(menu_bar, tearoff=0)
-    genres_menu.add_command(label="Manage genres",command=lambda: open_genre_manager_window(root))
-    menu_bar.add_cascade(label="Genres", menu=genres_menu)
+    genres_menu.add_command(label='Manage genres',command=lambda: open_genre_manager_window(root))
+    menu_bar.add_cascade(label='Genres', menu=genres_menu)
 
     artists_menu = tk.Menu(menu_bar, tearoff=0)
-    artists_menu.add_command(label="Manage Artist",command=lambda: open_artist_manager_window(root))
-    menu_bar.add_cascade(label="Artists", menu=artists_menu)
+    artists_menu.add_command(label='Manage Artist',command=lambda: open_artist_manager_window(root))
+    menu_bar.add_cascade(label='Artists', menu=artists_menu)
 
     search_frame = tk.Frame(root)
     search_frame.pack(fill='x',padx=10,pady=(10,0))
 
-    tk.Label(search_frame, text="Search: ").pack(side='left')
+    tk.Label(search_frame, text='Search: ').pack(side='left')
 
     search_var = tk.StringVar()
 
     search_entry = tk.Entry(search_frame, textvariable=search_var)
     search_entry.pack(side='left', fill='x',expand=True,padx=8)
 
-    tk.Button(search_frame, text="Clear",command=lambda: search_var.set("")).pack(side='left')
+    tk.Button(search_frame, text='Clear',command=lambda: search_var.set('')).pack(side='left')
 
     albums_dict = {}
     albums_cache = []
@@ -103,7 +103,7 @@ def run_app():
         tree.delete(*tree.get_children())
         albums_dict.clear()
         for album in albums_cache:
-            haystack = f"{album.artist.name} {album.title} {album.genre.name} {album.release_year}".lower()
+            haystack = f'{album.artist.name} {album.title} {album.genre.name} {album.release_year}'.lower()
             if q in haystack:
                 item_id = tree.insert('','end',values=(
                     album.artist.name,
@@ -113,7 +113,7 @@ def run_app():
                 ))
                 albums_dict[item_id] = album
 
-    search_var.trace_add("write",apply_filter)
+    search_var.trace_add('write',apply_filter)
 
     tree = ttk.Treeview(root,
                         columns=('Artist','Title','Genre','Year'),
@@ -139,19 +139,19 @@ def run_app():
 
     ttk.Button(
         buttons_frame,
-        text="Add",
+        text='Add',
         command=lambda: open_add_album_window(root,refresh_and_filter)
     ).pack(side='left')
 
     ttk.Button(
         buttons_frame,
-        text="Delete",
+        text='Delete',
         command=lambda: delete_single_album(tree,albums_dict,albums_cache,refresh_and_filter)
     ).pack(side='right')
 
     ttk.Button(
         buttons_frame,
-        text="Edit",
+        text='Edit',
         command=lambda: update_single_album(root,tree,albums_dict,albums_cache,refresh_and_filter)
     ).pack(side='right',padx=(0,8))
 
@@ -163,3 +163,4 @@ def run_app():
 
 if __name__ == '__main__':
     run_app()
+

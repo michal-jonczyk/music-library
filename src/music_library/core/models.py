@@ -10,7 +10,7 @@ class Artist(Base):
     name = Column(String(200), nullable=False, unique=True)
     description = Column(Text)
 
-    albums = relationship("Album", back_populates="artist")
+    albums = relationship('Album', back_populates='artist')
 
     def __str__(self):
         return self.name
@@ -20,7 +20,7 @@ class Genre(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(45),nullable=False, unique=True)
 
-    albums = relationship("Album", back_populates="genre")
+    albums = relationship('Album', back_populates='genre')
 
     def __str__(self):
         return self.name
@@ -36,5 +36,5 @@ class Album(Base):
     cover_photo = Column(String(200))
     release_year = Column(Integer, nullable=False)
 
-    artist = relationship("Artist", back_populates="albums")
-    genre = relationship("Genre", back_populates="albums")
+    artist = relationship('Artist', back_populates='albums')
+    genre = relationship('Genre', back_populates='albums')

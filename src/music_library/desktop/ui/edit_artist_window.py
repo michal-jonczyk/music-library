@@ -5,13 +5,13 @@ from music_library.core.artist_db import update_artist
 
 def open_edit_artist_window(parent, artist, on_updated):
     window = tk.Toplevel(parent)
-    window.title("Edit Artist")
-    window.geometry("420x180")
+    window.title('Edit Artist')
+    window.geometry('420x180')
 
     window.grab_set()
     window.transient(parent)
 
-    tk.Label(window,text="Artist name: ").grid(row=0,column=0,sticky='w')
+    tk.Label(window,text='Artist name: ').grid(row=0,column=0,sticky='w')
     name_entry = tk.Entry(window,width=35)
     name_entry.grid(row=0,column=1,sticky='w')
     name_entry.insert(0,artist.name)

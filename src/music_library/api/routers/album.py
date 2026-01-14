@@ -6,7 +6,7 @@ from starlette import status
 from music_library.api.database import get_db
 from music_library.core.models import Album, Artist, Genre
 
-router = APIRouter(prefix="/albums", tags=["albums"])
+router = APIRouter(prefix='/albums', tags=['albums'])
 
 
 class AlbumCreate(BaseModel):
@@ -31,34 +31,33 @@ class AlbumOutDetailed(BaseModel):
     release_year: int | None = None
     artist: str
 
-    model_config = {"from_attributes": True}
+    model_config = {'from_attributes': True}
 
 
-@router.get("", response_model=list[AlbumOutDetailed])
+@router.get('', response_model=list[AlbumOutDetailed])
 def get_albums(db: Session = Depends(get_db)):
     albums = db.query(Album).all()
     return [
         {
-            "id": a.id,
-            "title": a.title,
-            "release_year": a.release_year,
-            "artist": a.artist.name,
-            "genre": a.genre.name,
+            'id': a.id,
+            'title': a.title,
+            'release_year': a.release_year,
+            'artist': a.artist.name,
+            'genre': a.genre.name,
         }
         for a in albums
     ]
 
 
-@router.post("", status_code=status.HTTP_201_CREATED, response_model=AlbumOut)
+@router.post('', status_code=status.HTTP_201_CREATED, response_model=AlbumOut)
 def create_album(album: AlbumCreate, db: Session = Depends(get_db)):
-    # walidacja FK (czy artist i genre istnieją)
     artist = db.query(Artist).filter(Artist.id == album.artist_id).first()
     if artist is None:
-        raise HTTPException(status_code=404, detail="Artist not found")
+        raise HTTPException(status_code=404, detail='Artist not found')
 
     genre = db.query(Genre).filter(Genre.id == album.genre_id).first()
     if genre is None:
-        raise HTTPException(status_code=404, detail="Genre not found")
+        raise HTTPException(status_code=404, detail='Genre not found')
 
     new_album = Album(
         artist_id=album.artist_id,
@@ -72,27 +71,27 @@ def create_album(album: AlbumCreate, db: Session = Depends(get_db)):
     return new_album
 
 
-@router.get("/{album_id}", response_model=AlbumOut)
+@router.get('/{album_id}', response_model=AlbumOut)
 def get_album(album_id: int, db: Session = Depends(get_db)):
     album = db.query(Album).filter(Album.id == album_id).first()
     if album is None:
-        raise HTTPException(status_code=404, detail="Album not found")
+        raise HTTPException(status_code=404, detail='Album not found')
     return album
 
 
-@router.put("/{album_id}", response_model=AlbumOut)
+@router.put('/{album_id}', response_model=AlbumOut)
 def update_album(album_id: int, album: AlbumCreate, db: Session = Depends(get_db)):
     existing = db.query(Album).filter(Album.id == album_id).first()
     if existing is None:
-        raise HTTPException(status_code=404, detail="Album not found")
+        raise HTTPException(status_code=404, detail='Album not found')
 
     artist = db.query(Artist).filter(Artist.id == album.artist_id).first()
     if artist is None:
-        raise HTTPException(status_code=404, detail="Artist not found")
+        raise HTTPException(status_code=404, detail='Artist not found')
 
     genre = db.query(Genre).filter(Genre.id == album.genre_id).first()
     if genre is None:
-        raise HTTPException(status_code=404, detail="Genre not found")
+        raise HTTPException(status_code=404, detail='Genre not found')
 
     existing.artist_id = album.artist_id
     existing.genre_id = album.genre_id
@@ -103,10 +102,10 @@ def update_album(album_id: int, album: AlbumCreate, db: Session = Depends(get_db
     return existing
 
 
-@router.delete("/{album_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete('/{album_id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_album(album_id: int, db: Session = Depends(get_db)):
     existing = db.query(Album).filter(Album.id == album_id).first()
     if existing is None:
-        raise HTTPException(status_code=404, detail="Album not found")
+        raise HTTPException(status_code=404, detail='Album not found')
     db.delete(existing)
     db.commit()

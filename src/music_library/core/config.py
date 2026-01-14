@@ -11,11 +11,11 @@ BASE_DIR = os.path.dirname(
     )
 )
 
-DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'library.db')}"
+DATABASE_URL = f'sqlite:///{os.path.join(BASE_DIR, 'library.db')}'
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False}
+    connect_args={'check_same_thread': False}
 )
 
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
