@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
+
 from music_library.core.artist_db import get_artists
 from music_library.core.genres_db import get_genres
 from music_library.core.models import Album
 from music_library.desktop.ui.add_artist_window import open_add_artist_window
+
 
 def open_album_form_window(parent, refresh_treeview, album=None, on_save=None):
     window = tk.Toplevel(parent)
@@ -26,7 +28,6 @@ def open_album_form_window(parent, refresh_treeview, album=None, on_save=None):
     genre_cb = ttk.Combobox(window, values=list(genres_dict.keys()), state='readonly')
     year_entry = tk.Entry(window)
 
-
     def reload_artists(select_name=None):
         new_artists = {a.name: a for a in get_artists()}
         artists_dict.clear()
@@ -34,9 +35,6 @@ def open_album_form_window(parent, refresh_treeview, album=None, on_save=None):
         artist_cb['values'] = list(artists_dict.keys())
         if select_name:
             artist_cb.set(select_name)
-
-
-
 
     if album:
         artist_cb.set(album.artist.name)
@@ -46,28 +44,42 @@ def open_album_form_window(parent, refresh_treeview, album=None, on_save=None):
 
     artist_cb.grid(row=0, column=1, sticky='w')
 
-    add_artist_btn = tk.Button(window, text='+', width=3, command=lambda: open_add_artist_window(window,lambda name: reload_artists(name) ))
-    add_artist_btn.grid(row=0, column=2, sticky='w',padx=5)
+    add_artist_btn = tk.Button(
+        window,
+        text='+',
+        width=3,
+        command=lambda: open_add_artist_window(window, lambda name: reload_artists(name)),
+    )
+    add_artist_btn.grid(row=0, column=2, sticky='w', padx=5)
 
     title_entry.grid(row=1, column=1, sticky='w')
     genre_cb.grid(row=2, column=1, sticky='w')
     year_entry.grid(row=3, column=1, sticky='w')
 
-
-
     def save():
+        artist = artists_dict.get(artist_cb.get())
+        title = title_entry.get().strip()
+        genre = genres_dict.get(genre_cb.get())
+        year_str = year_entry.get().strip()
+
+        if not year_str.isdigit():
+            tk.messagebox.showwarning('Error', 'Release year must be a number.')
+            return
+
+        release_year = int(year_str)
+
         if album:
-            album.artist = artists_dict.get(artist_cb.get())
-            album.title = title_entry.get()
-            album.genre = genres_dict.get(genre_cb.get())
-            album.release_year = year_entry.get()
+            album.artist = artist
+            album.title = title
+            album.genre = genre
+            album.release_year = release_year
             on_save(album)
         else:
             new_album = Album(
-                artist=artists_dict.get(artist_cb.get()),
-                title=title_entry.get(),
-                genre=genres_dict.get(genre_cb.get()),
-                release_year=year_entry.get()
+                artist=artist,
+                title=title,
+                genre=genre,
+                release_year=release_year,
             )
             on_save(new_album)
 
