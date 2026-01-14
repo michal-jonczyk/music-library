@@ -42,17 +42,21 @@ The project consists of:
 
 ## How to run the desktop app
 
+
 1. Clone the repository:
 
    ```bash
    git clone https://github.com/michal-jonczyk/music-library.git
    cd music-library
-	
+   ```
+
 
 2. Create a virtual environment (recommended):
 
    ```bash
    python -m venv venv
+   ```
+
 
 3.Activate the virtual environment:
 
@@ -61,13 +65,18 @@ The project consists of:
    venv\Scripts\activate
    Linux/macOS:
    source venv/bin/activate
+   ```
+
 
 4.Install dependencies:
 
    ```bash
    pip install -r requirements.txt
+   ```
+
 
 5.Run the Tkinter application:
 
    ```bash
    python src/music_library/desktop/app.py
+   ```
