@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from src.music_library.core.genres_db import save_genre
-from src.music_library.core.models import Genre
+from music_library.core.genres_db import save_genre
+from music_library.core.models import Genre
 
 
 def open_add_genre_window(parent,on_added):
