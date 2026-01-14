@@ -1,128 +1,73 @@
-\# Music Library
+text
+# Music Library
 
+Desktop application and REST API for managing a personal music library.
 
-
-Desktop application for managing a personal music library.
-
-
-
-The app allows you to manage artists, albums, and music genres using a simple
-
-graphical interface built with Tkinter and a SQLite database.
-
-
+The project consists of:
+- a Tkinter desktop app for managing artists, albums and genres,
+- a FastAPI backend exposing the same data via a JSON REST API (SQLAlchemy + SQLite).
 
 ---
 
+## Features
 
-
-\## Features
-
-
-
-\- Add, edit and delete artists
-
-\- Add, edit and delete albums
-
-\- Manage music genres
-
-\- Assign albums to artists and genres
-
-\- Live search for albums (filtering while typing)
-
-\- Double-click an album to edit it
-
-
+- Add, edit and delete artists
+- Add, edit and delete albums
+- Manage music genres
+- Assign albums to artists and genres
+- Live search for albums (filter while typing)
+- Double-click an album row to edit it
+- Delete key shortcut to remove the selected album
 
 ---
 
+## Tech stack
 
-
-\## Tech stack
-
-
-
-\- Python
-
-\- Tkinter
-
-\- SQLAlchemy (ORM)
-
-\- SQLite
-
-
+- Python
+- Tkinter
+- FastAPI
+- SQLAlchemy (ORM)
+- SQLite
 
 ---
 
+## Project structure (simplified)
 
+- `src/music_library/core/` – database config and SQLAlchemy models  
+- `src/music_library/desktop/` – Tkinter GUI (`app.py` and windows)  
+- `src/music_library/api/` – FastAPI application (`main.py`, routers)  
+- `library.db` – SQLite database file (auto-created in project root)
 
-\## How to run
+---
 
+## How to run the desktop app
 
+1. Clone the repository:
 
-1\. Clone the repository:
+   ```bash
+   git clone https://github.com/michal-jonczyk/music-library.git
+   cd music-library
+	
 
-&nbsp;  ```bash
+2. Create a virtual environment (recommended):
 
-&nbsp;  git clone https://github.com/your-username/music-library.git
+   ```bash
+   python -m venv venv
 
-&nbsp;  cd music-library
+3.Activate the virtual environment:
 
-&nbsp;  ```
+   ```bash
+   Windows:
+   venv\Scripts\activate
+   Linux/macOS:
+   source venv/bin/activate
 
+4.Install dependencies:
 
+   ```bash
+   pip install -r requirements.txt
 
-2\. Create a virtual environment:
+5.Run the Tkinter application:
 
-&nbsp;  ```bash
-
-&nbsp;  python -m venv venv
-
-&nbsp;  ```
-
-
-
-3\. Activate the virtual environment:
-
-
-
-&nbsp;  Windows
-
-&nbsp;  ```bash
-
-&nbsp;  venv\\Scripts\\activate
-
-&nbsp;  ```
-
-
-
-&nbsp;  Linux / macOS
-
-&nbsp;  ```bash
-
-&nbsp;  source venv/bin/activate
-
-&nbsp;  ```
-
-
-
-4\. Install dependencies:
-
-&nbsp;  ```bash
-
-&nbsp;  pip install -r requirements.txt
-
-&nbsp;  ```
-
-
-
-5\. Run the application:
-
-&nbsp;  ```bash
-
-&nbsp;  python library.py
-
-&nbsp;  ```
-
-
-
+   ```bash
+   python src/music_library/desktop/app.py
