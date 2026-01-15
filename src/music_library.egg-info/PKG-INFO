@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: music_library
+Version: 0.1.0
+Summary: Music Library - Desktop app and REST API
+Author: Michał Jończyk
+Requires-Python: >=3.10
+Requires-Dist: fastapi==0.109.0
+Requires-Dist: uvicorn==0.27.0
+Requires-Dist: sqlalchemy==2.0.25
+Requires-Dist: pydantic==2.5.3
+Provides-Extra: dev
+Requires-Dist: pytest==7.4.4; extra == "dev"
+Requires-Dist: pytest-cov==4.1.0; extra == "dev"
+Requires-Dist: httpx==0.26.0; extra == "dev"
+Dynamic: author
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
